@@ -7,7 +7,6 @@ var config = require("./config");
   var aad_users = await getAadUsers(token);
   var ragic_users = await getRagicUsers();
   var ragic_users_mail = ragic_users.map((v) => v["E-mail"]);
-  var fetch_list = [];
   for (var data of aad_users) {
     var mail = data["userPrincipalName"];
     if (mail.endsWith("onmicrosoft.com")) {
@@ -16,19 +15,13 @@ var config = require("./config");
 
     if (ragic_users_mail.includes(mail)) {
       var id = getUserId(mail, ragic_users);
-      fetch_list.push(updateUser(data, id));
+      updateUser(data, id);
     } else {
-      fetch_list.push(createUser(data));
+      createUser(data);
     }
+    await sleep(100);
   }
 
-  Promise.all(
-    fetch_list.map((i) =>
-      fetch(i.url, i.option)
-        .then((resp) => resp.json())
-        .then((resp) => console.log(resp.status + ": " + resp.rv))
-    )
-  );
 })();
 
 async function getAadToken() {
@@ -101,14 +94,13 @@ function createUser(data) {
     612: data["officeLocation"] ?? "",
   };
 
-  return {
-    url: url,
-    option: {
-      method: "POST",
-      headers: headers,
-      body: objToForm(data),
-    },
-  };
+  fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: objToForm(data),
+  })
+    .then((resp) => resp.json())
+    .then((resp) => console.log(resp.status + ": " + resp.rv));
 }
 
 function updateUser(data, id) {
@@ -118,20 +110,19 @@ function updateUser(data, id) {
   };
   var data = {
     4: data["displayName"] ?? "",
-    3: "AADUser",
     609: data["jobTitle"] ?? "",
     610: data["companyName"] ?? "",
     611: data["department"] ?? "",
     612: data["officeLocation"] ?? "",
   };
-  return {
-    url: url,
-    option: {
-      method: "POST",
-      headers: headers,
-      body: objToForm(data),
-    },
-  };
+
+  fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: objToForm(data),
+  })
+    .then((resp) => resp.json())
+    .then((resp) => console.log(resp.status + ": " + resp.rv));
 }
 
 function objToForm(obj) {
