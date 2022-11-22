@@ -1,0 +1,7 @@
+module.exports = {
+  ragic_url: "https://ragic.example.com",
+  tenant_id: "tenant_id",
+  client_id: "client_id",
+  client_secret: "client_secret",
+  ragic_key: "ragic_key",
+};

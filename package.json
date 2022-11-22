@@ -1,0 +1,23 @@
+{
+  "name": "ragic-import-aad-users",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moda-gov-tw/ragic-import-aad-users.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moda-gov-tw/ragic-import-aad-users/issues"
+  },
+  "homepage": "https://github.com/moda-gov-tw/ragic-import-aad-users#readme",
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "node-fetch": "^2.6.0"
+  }
+}
