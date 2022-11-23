@@ -1,6 +1,13 @@
 var fetch = require("node-fetch");
 var FormData = require("form-data");
-var config = require("./config");
+require('dotenv').config();
+var config = {
+  tenant_id: process.env.AAD_TENANT_ID,
+  client_id: process.env.AAD_CLIENT_ID,
+  client_secret: process.env.AAD_CLIENT_SECRET,
+  ragic_url: process.env.RAGIC_URL,
+  ragic_key: process.env.RAGIC_KEY
+};
 
 (async () => {
   var token = await getAadToken();
@@ -8,6 +15,10 @@ var config = require("./config");
   var ragic_users = await getRagicUsers();
   var ragic_users_mail = ragic_users.map((v) => v["E-mail"]);
   for (var data of aad_users) {
+    Object.keys(data).forEach(function (key, index) {
+      if (this[key] == null) this[key] = "";
+    }, data);
+
     var mail = data["userPrincipalName"];
     if (mail.endsWith("onmicrosoft.com")) {
       continue;
@@ -84,14 +95,14 @@ function createUser(data) {
     Authorization: `Basic ${config.ragic_key}`,
   };
   var data = {
-    1: data["userPrincipalName"] ?? "",
+    1: data["userPrincipalName"],
     3: "AADUser",
-    4: data["displayName"] ?? "",
+    4: data["displayName"],
     31: "NORMAL",
-    609: data["jobTitle"] ?? "",
-    610: data["companyName"] ?? "",
-    611: data["department"] ?? "",
-    612: data["officeLocation"] ?? "",
+    609: data["jobTitle"],
+    610: data["companyName"],
+    611: data["department"],
+    612: data["officeLocation"],
   };
 
   fetch(url, {
@@ -107,19 +118,21 @@ function updateUser(data, id) {
   var url = `${config.ragic_url}/default/ragic-setup/1/${id}`;
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
+    'Content-Type': 'application/json'
   };
   var data = {
-    4: data["displayName"] ?? "",
-    609: data["jobTitle"] ?? "",
-    610: data["companyName"] ?? "",
-    611: data["department"] ?? "",
-    612: data["officeLocation"] ?? "",
+    4: data["displayName"],
+    3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
+    609: data["jobTitle"],
+    610: data["companyName"],
+    611: data["department"],
+    612: data["officeLocation"],
   };
 
   fetch(url, {
     method: "POST",
     headers: headers,
-    body: objToForm(data),
+    body: JSON.stringify(data),
   })
     .then((resp) => resp.json())
     .then((resp) => console.log(resp.status + ": " + resp.rv));
