@@ -18,7 +18,6 @@
   "homepage": "https://github.com/moda-gov-tw/ragic-import-aad-users#readme",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "form-data": "^4.0.0",
     "node-fetch": "^2.6.0"
   }
 }

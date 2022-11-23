@@ -1,5 +1,4 @@
 var fetch = require("node-fetch");
-var FormData = require("form-data");
 require('dotenv').config();
 var config = {
   tenant_id: process.env.AAD_TENANT_ID,
@@ -108,7 +107,7 @@ function createUser(data) {
   fetch(url, {
     method: "POST",
     headers: headers,
-    body: objToForm(data),
+    body: JSON.stringify(data),
   })
     .then((resp) => resp.json())
     .then((resp) => console.log(resp.status + ": " + resp.rv));
@@ -135,14 +134,6 @@ function updateUser(data, id) {
   })
     .then((resp) => resp.json())
     .then((resp) => console.log(resp.status + ": " + resp.rv));
-}
-
-function objToForm(obj) {
-  var formData = new FormData();
-  for (const [key, value] of Object.entries(obj)) {
-    formData.append(key, value);
-  }
-  return formData;
 }
 
 function getUserId(mail, list) {
