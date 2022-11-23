@@ -122,7 +122,6 @@ function updateUser(data, id) {
   };
   var data = {
     4: data["displayName"],
-    3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
     609: data["jobTitle"],
     610: data["companyName"],
     611: data["department"],
