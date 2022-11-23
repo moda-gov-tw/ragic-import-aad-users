@@ -6,7 +6,7 @@
 會需要取得 tenant_id, client_id, client_secret
 ### 2. 取得能夠讀取使用者資料的 Ragic Token 
 ### 3. Fork this repo
-### 4. Set Github Actions Secret
+### 4. Set Github Actions Secret 或使用 .env
 - AAD_TENANT_ID: 步驟一取得
 - AAD_CLIENT_ID: 步驟一取得
 - AAD_CLIENT_SECRET: 步驟一取得
