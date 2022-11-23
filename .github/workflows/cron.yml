@@ -17,5 +17,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm install
-      - run: npm start
+        env:
+          AAD_TENANT_ID: ${{ secrets.AAD_TENANT_ID }}
+          AAD_CLIENT_ID: ${{ secrets.AAD_CLIENT_ID }}
+          AAD_CLIENT_SECRET: ${{ secrets.AAD_CLIENT_SECRET }}
+          RAGIC_URL: ${{ secrets.RAGIC_URL }}
+          RAGIC_KEY: ${{ secrets.RAGIC_KEY }}
+      - run: |
+          npm install
+          npm start
