@@ -12,9 +12,10 @@ var config = {
   var token = await getAadToken();
   var aad_users = await getAadUsers(token);
   var ragic_users = await getRagicUsers();
+  var add_users_same_name = aad_users.map((v) => v["displayName"]).filter((e, i, a) => a.indexOf(e) !== i);
   var ragic_users_mail = ragic_users.map((v) => v["E-mail"]);
   for (var data of aad_users) {
-    Object.keys(data).forEach(function (key, index) {
+    Object.keys(data).forEach(function (key) {
       if (this[key] == null) this[key] = "";
     }, data);
 
@@ -23,11 +24,12 @@ var config = {
       continue;
     }
 
+    var same_name = add_users_same_name.includes(data["displayName"]);
     if (ragic_users_mail.includes(mail)) {
       var id = getUserId(mail, ragic_users);
-      updateUser(data, id);
+      updateUser(data, id, same_name);
     } else {
-      createUser(data);
+      createUser(data, same_name);
     }
     await sleep(100);
   }
@@ -88,7 +90,7 @@ async function getRagicUsers() {
   return result;
 }
 
-function createUser(data) {
+function createUser(data, same) {
   var url = `${config.ragic_url}/default/ragic-setup/1`;
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
@@ -97,7 +99,7 @@ function createUser(data) {
   var body = {
     1: data["userPrincipalName"],
     3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
-    4: data["displayName"] + " " + data["userPrincipalName"].split('@')[0],
+    4: data["displayName"] + (same ? " " + data["userPrincipalName"].split('@')[0] : ""),
     31: "NORMAL",
     609: data["jobTitle"],
     610: data["companyName"],
@@ -122,14 +124,14 @@ function createUser(data) {
     });
 }
 
-function updateUser(data, id) {
+function updateUser(data, id, same) {
   var url = `${config.ragic_url}/default/ragic-setup/1/${id}`;
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
     'Content-Type': 'application/json'
   };
   var body = {
-    4: data["displayName"] + " " + data["userPrincipalName"].split('@')[0],
+    4: data["displayName"] + (same ? " " + data["userPrincipalName"].split('@')[0] : ""),
     609: data["jobTitle"],
     610: data["companyName"],
     611: data["department"],
