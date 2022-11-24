@@ -110,7 +110,15 @@ function createUser(data) {
     body: JSON.stringify(body),
   })
     .then((resp) => resp.json())
-    .then((resp) => console.log(data["userPrincipalName"] + ": " + resp.status));
+    .then((resp) => {
+      if (resp.status == "SUCCESS") {
+        console.log("✅ Create " + data["userPrincipalName"]);
+      }
+      else {
+        console.log("❌ Create " + data["userPrincipalName"]);
+        console.log(resq);
+      }
+    });
 }
 
 function updateUser(data, id) {
@@ -133,7 +141,15 @@ function updateUser(data, id) {
     body: JSON.stringify(body),
   })
     .then((resp) => resp.json())
-    .then((resp) => console.log(data["userPrincipalName"] + ": " + resp.status));
+    .then((resp) => {
+      if (resp.status == "SUCCESS") {
+        console.log("✅ Update " + data["userPrincipalName"]);
+      }
+      else {
+        console.log("❌ Update " + data["userPrincipalName"]);
+        console.log(resq);
+      }
+    });
 }
 
 function getUserId(mail, list) {
