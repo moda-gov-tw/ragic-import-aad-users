@@ -97,7 +97,7 @@ function createUser(data) {
   var body = {
     1: data["userPrincipalName"],
     3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
-    4: data["displayName"],
+    4: data["displayName"] + " " + data["userPrincipalName"],
     31: "NORMAL",
     609: data["jobTitle"],
     610: data["companyName"],
@@ -129,7 +129,7 @@ function updateUser(data, id) {
     'Content-Type': 'application/json'
   };
   var body = {
-    4: data["displayName"],
+    4: data["displayName"] + " " + data["userPrincipalName"],
     609: data["jobTitle"],
     610: data["companyName"],
     611: data["department"],
