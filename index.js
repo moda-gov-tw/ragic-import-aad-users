@@ -95,7 +95,7 @@ function createUser(data) {
   };
   var data = {
     1: data["userPrincipalName"],
-    3: "AADUser",
+    3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
     4: data["displayName"],
     31: "NORMAL",
     609: data["jobTitle"],
