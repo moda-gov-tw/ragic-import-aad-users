@@ -40,6 +40,7 @@ var config = {
   for (var mail of suspend_users) {
     var id = getUserId(mail, ragic_users);
     suspendUser(id, mail);
+    await sleep(100);
   }
 
 })();
