@@ -92,6 +92,7 @@ function createUser(data) {
   var url = `${config.ragic_url}/default/ragic-setup/1`;
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
+    'Content-Type': 'application/json'
   };
   var body = {
     1: data["userPrincipalName"],
