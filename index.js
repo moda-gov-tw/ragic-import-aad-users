@@ -93,7 +93,7 @@ function createUser(data) {
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
   };
-  var data = {
+  var body = {
     1: data["userPrincipalName"],
     3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
     4: data["displayName"],
@@ -107,7 +107,7 @@ function createUser(data) {
   fetch(url, {
     method: "POST",
     headers: headers,
-    body: JSON.stringify(data),
+    body: JSON.stringify(body),
   })
     .then((resp) => resp.json())
     .then((resp) => console.log(data["userPrincipalName"] + ": " + resp.status));
@@ -119,7 +119,7 @@ function updateUser(data, id) {
     Authorization: `Basic ${config.ragic_key}`,
     'Content-Type': 'application/json'
   };
-  var data = {
+  var body = {
     4: data["displayName"],
     609: data["jobTitle"],
     610: data["companyName"],
@@ -130,7 +130,7 @@ function updateUser(data, id) {
   fetch(url, {
     method: "POST",
     headers: headers,
-    body: JSON.stringify(data),
+    body: JSON.stringify(body),
   })
     .then((resp) => resp.json())
     .then((resp) => console.log(data["userPrincipalName"] + ": " + resp.status));
