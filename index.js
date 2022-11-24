@@ -14,6 +14,7 @@ var config = {
   var ragic_users = await getRagicUsers();
   var add_users_same_name = aad_users.map((v) => v["displayName"]).filter((e, i, a) => a.indexOf(e) !== i);
   var ragic_users_mail = ragic_users.map((v) => v["E-mail"]);
+  var suspend_users = ragic_users.filter((v) => v["Ragic Groups"].includes("AADUser")).map((v) => v["E-mail"]);
   for (var data of aad_users) {
     Object.keys(data).forEach(function (key) {
       if (this[key] == null) this[key] = "";
@@ -31,7 +32,14 @@ var config = {
     } else {
       createUser(data, same_name);
     }
+
+    suspend_users = suspend_users.filter(i => i !== mail);
     await sleep(100);
+  }
+
+  for (var mail of suspend_users) {
+    var id = getUserId(mail, ragic_users);
+    suspendUser(id, mail);
   }
 
 })();
@@ -121,6 +129,10 @@ function createUser(data, same) {
         console.log("❌ Create " + data["userPrincipalName"]);
         console.log(resp);
       }
+    })
+    .catch((error) => {
+      console.log("❌ Create " + data["userPrincipalName"]);
+      console.error(error);
     });
 }
 
@@ -152,6 +164,41 @@ function updateUser(data, id, same) {
         console.log("❌ Update " + data["userPrincipalName"]);
         console.log(resp);
       }
+    })
+    .catch((error) => {
+      console.log("❌ Update " + data["userPrincipalName"]);
+      console.error(error);
+    });
+}
+
+function suspendUser(id, mail) {
+  var url = `${config.ragic_url}/default/ragic-setup/1/${id}`;
+  var headers = {
+    Authorization: `Basic ${config.ragic_key}`,
+    'Content-Type': 'application/json'
+  };
+  var body = {
+    31: "SUSPENDED",
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(body),
+  })
+    .then((resp) => resp.json())
+    .then((resp) => {
+      if (resp.status == "SUCCESS") {
+        console.log("✅ Suspend " + mail);
+      }
+      else {
+        console.log("❌ Suspend " + mail);
+        console.log(resp);
+      }
+    })
+    .catch((error) => {
+      console.log("❌ Suspend " + mail);
+      console.error(error);
     });
 }
 
