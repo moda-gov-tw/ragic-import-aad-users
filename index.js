@@ -116,7 +116,7 @@ function createUser(data) {
       }
       else {
         console.log("❌ Create " + data["userPrincipalName"]);
-        console.log(resq);
+        console.log(resp);
       }
     });
 }
@@ -147,7 +147,7 @@ function updateUser(data, id) {
       }
       else {
         console.log("❌ Update " + data["userPrincipalName"]);
-        console.log(resq);
+        console.log(resp);
       }
     });
 }
