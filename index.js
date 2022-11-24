@@ -110,7 +110,7 @@ function createUser(data) {
     body: JSON.stringify(data),
   })
     .then((resp) => resp.json())
-    .then((resp) => console.log(resp.status + ": " + resp.rv));
+    .then((resp) => console.log(data["userPrincipalName"] + ": " + resp.status));
 }
 
 function updateUser(data, id) {
@@ -133,7 +133,7 @@ function updateUser(data, id) {
     body: JSON.stringify(data),
   })
     .then((resp) => resp.json())
-    .then((resp) => console.log(resp.status + ": " + resp.rv));
+    .then((resp) => console.log(data["userPrincipalName"] + ": " + resp.status));
 }
 
 function getUserId(mail, list) {
