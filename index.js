@@ -106,7 +106,7 @@ function createUser(data, same) {
     'Content-Type': 'application/json'
   };
   var body = {
-    1: data["userPrincipalName"],
+    1: data["companyName"] + data["department"] + " " + data["userPrincipalName"],
     3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
     4: data["displayName"] + (same ? " " + data["userPrincipalName"].split('@')[0] : ""),
     31: "NORMAL",
