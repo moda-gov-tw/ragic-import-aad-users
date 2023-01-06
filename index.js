@@ -106,9 +106,9 @@ function createUser(data, same) {
     'Content-Type': 'application/json'
   };
   var body = {
-    1: data["companyName"] + data["department"] + " " + data["userPrincipalName"],
+    1: data["userPrincipalName"],
     3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
-    4: data["displayName"] + (same ? " " + data["userPrincipalName"].split('@')[0] : ""),
+    4: data["companyName"] + data["department"] + " " + data["displayName"],
     31: "NORMAL",
     609: data["jobTitle"],
     610: data["companyName"],
@@ -144,7 +144,7 @@ function updateUser(data, id, same) {
     'Content-Type': 'application/json'
   };
   var body = {
-    4: data["displayName"] + (same ? " " + data["userPrincipalName"].split('@')[0] : ""),
+    4: data["companyName"] + data["department"] + " " + data["displayName"],
     609: data["jobTitle"],
     610: data["companyName"],
     611: data["department"],
