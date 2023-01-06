@@ -108,7 +108,7 @@ function createUser(data, same) {
   var body = {
     1: data["userPrincipalName"],
     3: ["AADUser", data["companyName"], data["companyName"] + data["department"]],
-    4: data["companyName"] + data["department"] + " " + data["displayName"],,
+    4: data["companyName"] + data["department"] + " " + data["displayName"],
     1001998: data["displayName"],
     31: "NORMAL",
     609: data["jobTitle"],
