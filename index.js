@@ -5,7 +5,9 @@ var config = {
   client_id: process.env.AAD_CLIENT_ID,
   client_secret: process.env.AAD_CLIENT_SECRET,
   ragic_url: process.env.RAGIC_URL,
-  ragic_key: process.env.RAGIC_KEY
+  ragic_key: process.env.RAGIC_KEY,
+  cf_id: process.env.CF_ID,
+  cf_secret: process.env.CF_SECRET
 };
 
 (async () => {
@@ -103,7 +105,9 @@ function createUser(data, same) {
   var url = `${config.ragic_url}/default/ragic-setup/1`;
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'CF-Access-Client-Id': config.cf_id,
+    'CF-Access-Client-Secret': config.cf_secret
   };
   var body = {
     1: data["userPrincipalName"],
@@ -142,7 +146,9 @@ function updateUser(data, id, same) {
   var url = `${config.ragic_url}/default/ragic-setup/1/${id}`;
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'CF-Access-Client-Id': config.cf_id,
+    'CF-Access-Client-Secret': config.cf_secret
   };
   var body = {
     4: data["companyName"] + data["department"] + " " + data["displayName"],
@@ -178,7 +184,9 @@ function suspendUser(id, mail) {
   var url = `${config.ragic_url}/default/ragic-setup/1/${id}`;
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'CF-Access-Client-Id': config.cf_id,
+    'CF-Access-Client-Secret': config.cf_secret
   };
   var body = {
     31: "SUSPENDED",
