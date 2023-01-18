@@ -24,6 +24,8 @@ jobs:
           AAD_CLIENT_SECRET: ${{ secrets.AAD_CLIENT_SECRET }}
           RAGIC_URL: ${{ secrets.RAGIC_URL }}
           RAGIC_KEY: ${{ secrets.RAGIC_KEY }}
+          CF_ID: ${{ secrets.CF_ID }}
+          CF_SECRET: ${{ secrets.CF_SECRET }}
         run: |
           npm install
           npm start
