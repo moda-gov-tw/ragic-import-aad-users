@@ -91,6 +91,8 @@ async function getRagicUsers() {
   var url = `${config.ragic_url}/default/ragic-setup/1`;
   var headers = {
     Authorization: `Basic ${config.ragic_key}`,
+    'CF-Access-Client-Id': config.cf_id,
+    'CF-Access-Client-Secret': config.cf_secret
   };
 
   var response = await fetch(url, {
