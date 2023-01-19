@@ -11,6 +11,7 @@ var config = {
 };
 
 (async () => {
+  console.log(config);
   var token = await getAadToken();
   var aad_users = await getAadUsers(token);
   var ragic_users = await getRagicUsers();
